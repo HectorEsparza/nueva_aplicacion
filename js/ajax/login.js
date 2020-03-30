@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+  $("#login").click(function(){
+    enviar();
+  });
   function enviar(){
     var parametros =
     {
@@ -11,7 +13,7 @@ $(document).ready(function(){
         type: "POST", //El tipo de transaccion para los datos
         dataType: "json", //Especificaremos que datos vamos a enviar
         contentType: "application/x-www-form-urlencoded", //Especificaremos el tipo de contenido
-        url: "../../php/login.php", //Sera el archivo que va a procesar la petición AJAX
+        url: "php/login.php", //Sera el archivo que va a procesar la petición AJAX
         data: parametros, //Datos que le vamos a enviar
         // data: "total="+total+"&penalizacion="+penalizacion,
         beforeSend: inicioEnvio, //Es la función que se ejecuta antes de empezar la transacción
@@ -25,10 +27,17 @@ $(document).ready(function(){
       console.log("Enviando petición de login...");
   }
 
-  function llegada(datos){
-    if(datos[0]=="Exito"){
-      alert("Se actualizó la contraseña de manera exitosa, por favor inicia sesión");
-      setTimeout("location.href='index.html'", 500);
+  function llegada(resultados){
+    if(resultados.opcion==0){
+      alert("Actualiza tu contraseña, por favor");
+      setTimeout("location.href='cambioPassword.html'", 500);
+    }
+    else if(resultados.opcion==1){
+      alert("Login exitoso");
+      setTimeout("location.href='inicio.html'", 500);
+    }
+    else{
+      alert("Usuario o Password incorrectos, verificalo por favor");
     }
   }
 
