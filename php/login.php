@@ -15,6 +15,7 @@
 
   if($password==$registro["Clave"]){
     $resultados["opcion"] = 0;
+    $resultados["usuario"] = $usuario;
   }
   else{
     if(password_verify($password, $registro["Clave"]) && $registro["Estatus"]=="Activo"){

@@ -1,19 +1,36 @@
 $(document).ready(function(){
-  $("#login").click(function(){
-    enviar();
+
+  $("#enviarPassword").click(function(){
+    var url = window.location.search;
+    url = url.split("=");
+    var usuario = url[1];
+    //console.log(usuario);
+    if($("#newPassword").val()!="" && $("#confirmPassword").val()!=""){
+      if($("#newPassword").val()==$("#confirmPassword").val()){
+        //alert("Enviando petición AJAX");
+        enviar(usuario);
+      }
+      else{
+        alert("Las contraseñas no coinciden, verificalas por favor");
+      }
+    }
+    else{
+      alert("Introduce la nueva contraseña y confirmala, por favor");
+    }
+
   });
-  function enviar(){
+  function enviar(usuario){
     var parametros =
     {
-      usuario: $("#usuario").val(),
-      password: $("#password").val(),
+      usuario: usuario,
+      password: $("#newPassword").val(),
     }
     $.ajax({
         async: true, //Activar la transferencia asincronica
         type: "POST", //El tipo de transaccion para los datos
         dataType: "json", //Especificaremos que datos vamos a enviar
         contentType: "application/x-www-form-urlencoded", //Especificaremos el tipo de contenido
-        url: "php/login.php", //Sera el archivo que va a procesar la petición AJAX
+        url: "php/cambioPassword.php", //Sera el archivo que va a procesar la petición AJAX
         data: parametros, //Datos que le vamos a enviar
         // data: "total="+total+"&penalizacion="+penalizacion,
         beforeSend: inicioEnvio, //Es la función que se ejecuta antes de empezar la transacción
@@ -24,21 +41,13 @@ $(document).ready(function(){
     return false;
   }
   function inicioEnvio(){
-      console.log("Enviando petición de login...");
+      console.log("Enviando petición de cambio de password...");
   }
 
   function llegada(resultados){
     if(resultados.opcion==0){
-      alert("Actualiza tu contraseña, por favor");
-      console.log(resultados.usuario);
-      setTimeout("location.href='cambioPassword.html?usuario="+resultados.usuario+"'", 500);
-    }
-    else if(resultados.opcion==1){
-      alert("Login exitoso");
-      setTimeout("location.href='inicio.html'", 500);
-    }
-    else{
-      alert("Usuario o Password incorrectos, verificalo por favor");
+      alert("Se actualizo la contraseña, inicia sesión por favor");
+      setTimeout("location.href='index.html'", 500);
     }
   }
 
