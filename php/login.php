@@ -19,6 +19,8 @@
   }
   else{
     if(password_verify($password, $registro["Clave"]) && $registro["Estatus"]=="Activo"){
+      session_start();
+      $_SESSION["usuario"] = $usuario;
       $resultados["opcion"] = 1;
     }
     else{
